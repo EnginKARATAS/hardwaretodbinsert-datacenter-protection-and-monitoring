@@ -50,7 +50,6 @@ namespace SeriHaberlesme
             }
         }
 
-        delegate void GelenVerileriGuncelleCallback(string veri);
         string nem = "";
         string isi = "";
         string mesafe = "";
@@ -91,8 +90,7 @@ namespace SeriHaberlesme
 
             if (this.textBoxGelenVeri.InvokeRequired)
             {
-                GelenVerileriGuncelleCallback d = new GelenVerileriGuncelleCallback(GelenVerileriGuncelle);
-                this.Invoke(d, new object[] { veri });
+                GelenVerileriGuncelle(veri);
             }
             else
             {
