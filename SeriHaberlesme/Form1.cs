@@ -25,7 +25,7 @@ namespace SeriHaberlesme
             comboBoxCOMPorts.Items.AddRange(myPort);
         }
         MySqlConnection conn;
-       
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -98,36 +98,34 @@ namespace SeriHaberlesme
             {
 
                 this.textBoxGelenVeri.AppendText(veri);
-                   
+
                 string[] splitted = veri.Split(',');
 
-                    nem = splitted[1];
-                    isi = splitted[0];
-                    hava = splitted[2];
-                    mesafe = splitted[3];
+                nem = splitted[1];
+                isi = splitted[0];
+                hava = splitted[2];
+                mesafe = splitted[3];
 
-                    if (conn.State!=ConnectionState.Open)
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    dht11();
+                    mq135();
+
+                    int msf = Convert.ToInt32(mesafe);
+
+                    if (msf >= 2 && msf <= 25)
                     {
-                        conn.Open();
-                        dht11();
-                        mq135();
-                        
-
-                        int msf = Convert.ToInt32( mesafe);
-                       
-                        
-                        if (msf >=2 && msf <=25)
-                        {
                         hcsr04();
-                        }                                             
                     }
-                    else
-                    {
-                        conn.Close();
-                    }              
+                }
+                else
+                {
+                    conn.Close();
+                }
             }
         }
-       
+
 
         private void buttonSerialPortBaglanti_Click(object sender, EventArgs e)
         {
@@ -154,7 +152,7 @@ namespace SeriHaberlesme
                 }
                 else
                 {
-                   
+
                     serialPort1.Close();
                     buttonSerialPortBaglanti.Text = "BAĞLANTI AÇ";
                 }
@@ -165,7 +163,7 @@ namespace SeriHaberlesme
             }
         }
 
-    
+
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             GelenVerileriGuncelle(serialPort1.ReadExisting());
